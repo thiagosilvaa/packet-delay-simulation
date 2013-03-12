@@ -88,7 +88,7 @@ $ns_ node-config -adhocRouting $opt(adhocRouting) \
                  -channel [new $opt(chan)] \
                  -topoInstance $topo \
                  -wiredRouting ON \
-                 -agentTrace ON \
+                 -agentTrace OFF \
                  -routerTrace OFF \
                  -macTrace ON
 
