@@ -7,6 +7,6 @@ cat packet-delay-sim.tr | grep " tcp " > tcpTypeInfo.txt
 awk -f data-processor.awk tcpTypeInfo.txt > packetDelayAverage.txt
 echo "Processamento de dados finalizado!"
 echo "Gerando graficos..."
-#gnuplot -persist <<PLOT
-#plot 'packetDelayAverage.txt'
+gnuplot -persist <<PLOT
+plot 'packetDelayAverage.txt'
 

@@ -1,18 +1,33 @@
-BEGIN{numPackets = 0;}
+BEGIN{numPackets = 0; packetDelayAverage = 0;lossPackets = 0;}
 {
-	if ($1 == "s" && $4 = "MAC"){
-		startTime[$6] = $2;
-		packetId[numPackets++] = $6;	
-	} else if ($1 == "r" && $5 == "tcp"){
-		endTime[$12] = $2;
+	action = $1;
+	time = $2;
+	layer = $4;
+	type = $5;
+	packetID = $6;
+	packetID_ = $12;
+
+	if (action == "s" && layer = "MAC"){
+		startTime[packetID] = time;
+		packetId[numPackets++] = packetID;	
+	} else if (action == "r" && type == "tcp"){
+		endTime[packetID_] = time;
 	}
 }
 
 END{
 	for(i = 0; i < numPackets; i++) {
-		printf("%.9f,%.9f\n",startTime[packetId[i]],endTime[packetId[i]]);
-	}		
-	
+		if(endTime[packetId[i]] == 0){ #Verifica se pacote nao chegou ao destino
+			numPackets = numPackets - 1;
+		} else {			
+			packetDelayAverageVector[i] = endTime[packetId[i]]-startTime[packetId[i]];
+		}
+	}
+	for(i = 0; i < numPackets; i++) {
+		packetDelayAverage =  packetDelayAverage + packetDelayAverageVector[i];
+	}
+	packetDelayAverage = packetDelayAverage/numPackets;
+	printf("%.9f",packetDelayAverage);
 }
 
 
