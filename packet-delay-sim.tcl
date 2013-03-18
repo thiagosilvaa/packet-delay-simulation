@@ -135,15 +135,20 @@ if {$opt(tptraffic) == "ftp"} {
 
 if {$opt(tptraffic) == "cbr"} {
 	for {set j 0} {$j < $opt(nn)} {incr j} {
-		# setup TCP connections
-		set tcp($j) [new Agent/TCP]
-		$tcp($j) set class_ 2
-		set sink($j) [new Agent/TCPSink]
-		$ns_ attach-agent $node_($j) $tcp($j)
-		$ns_ attach-agent $W(0) $sink($j)
-		$ns_ connect $tcp($j) $sink($j)
+		# setup UDP connections
+		set udp($j) [new Agent/UDP]
+		set null($j) [new Agent/Null]
+		$ns_ attach-agent $node_($j) $udp($j)
+		$ns_ attach-agent $W(0) $null($j)
+		$ns_ connect $udp($j) $null($j)
 		set cbr($j) [new Application/Traffic/CBR]
-		$cbr($j) attach-agent $tcp($j)
+		#$cbr($j) set packetSize_ 100
+		#$cbr($j) set rate_ 64Kb
+		#$cbr($j) set random_ 0
+		#puts "is [$cbr($j) set packet_size_]"
+		#puts "is [$cbr($j) set rate_]"
+		#puts "is [$cbr($j) set random_]"	
+		$cbr($j) attach-agent $udp($j)
 		$ns_ at 1.0 "$cbr($j) start"
 	}
 }
@@ -163,7 +168,7 @@ proc finish {} {
     	$ns_ flush-trace
    	close $namtracefd
     	close $tracefd
-    	exec nam packet-delay-sim.nam &
+    	#exec nam packet-delay-sim.nam &
     	exit 0
 }
 
