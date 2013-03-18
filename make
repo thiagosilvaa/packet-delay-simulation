@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Simulando..."
-> packetDelayAverage.txt
+#> packetDelayAverage.txt
 for i in {1..3}
 do 
 	echo "Numero de estacoes: $i"
@@ -8,7 +8,8 @@ do
 	ns packet-delay-sim.tcl -nn $i
 	echo "Processando dados..."
 	cat packet-delay-sim.tr | grep " tcp " > tcpTypeInfo.txt
-	awk -f data-processor.awk tcpTypeInfo.txt > packetDelayAverage.txt
+	average = $(awk -f data-processor.awk tcpTypeInfo.txt)
+	echo $i $average >> packetDelayAverage.txt
 done
 #echo "Processamento de dados finalizado!"
 echo "Simulacoes finalizadas!"
