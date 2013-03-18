@@ -14,4 +14,4 @@ done
 echo "Simulacoes finalizadas!"
 #echo "Gerando grafico..."
 #gnuplot -persist <<PLOT
-#plot 'packetDelayAverage.txt' with
+#plot 'packetDelayAverage.txt' with lines
