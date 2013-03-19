@@ -130,6 +130,7 @@ if {$opt(tptraffic) == "ftp"} {
 		set ftp($j) [new Application/FTP]
 		$ftp($j) attach-agent $tcp($j)
 		$ns_ at 1.0 "$ftp($j) start"
+		$ns_ at 50.0 "$ftp($j) stop"
 	}
 }
 
