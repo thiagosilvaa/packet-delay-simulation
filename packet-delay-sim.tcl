@@ -111,6 +111,7 @@ $ns_ node-config -wiredRouting OFF
 set index {1}
 for {set j 0} {$j < $opt(nn)} {incr j} {
 	set node_($j) [ $ns_ node 1.0.$index ]
+	$node_($j) label "node($j)"
 	incr index	
     	$node_($j) base-station [AddrParams addr2id [$BS(0) node-addr]]
   }
@@ -169,7 +170,7 @@ proc finish {} {
     	$ns_ flush-trace
    	close $namtracefd
     	close $tracefd
-    	#exec nam packet-delay-sim.nam &
+    	exec nam packet-delay-sim.nam &
     	exit 0
 }
 
