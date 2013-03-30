@@ -1,13 +1,15 @@
 #!/bin/bash
 echo "Simulando..."
 > packetDelayAverage.txt
-for i in {1..5}
+for i in {1..1}
 do 
 	echo "Numero de estacoes: $i"
-	ns packet-delay-sim.tcl -nn $i
+	ns packet-delay-sim.tcl -nn $i -tptraffic cbr
 	echo "Processando dados..."
-	cat packet-delay-sim.tr | grep " tcp " > tcpTypeInfo.txt
-	echo "$i $(awk -f data-processor.awk tcpTypeInfo.txt)" >> packetDelayAverage.txt
+	cat packet-delay-sim.tr | grep " cbr " > cbrTypeInfo.txt
+	awk 'NR >= 1000 && NR < 1100' cbrTypeInfo.txt > cbrTypeInfoSamples.txt
+	echo "$i $(awk -f data-processor.awk cbrTypeInfoSamples.txt)" >> packetDelayAverage.txt
+	rm -f *.tr *.nam cbrTypeInfo.txt cbrTypeInfoSamples.txt
 done
 #echo "Processamento de dados finalizado!"
 echo "Simulacoes finalizadas!"
