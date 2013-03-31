@@ -30,10 +30,10 @@ set opt(nn)             1
 set opt(adhocRouting)   DSDV                      
 set opt(cp)             ""                        
 set opt(sc)             "../mobility/scene/scen-3-test"   
-set opt(stop)           60                           
+set opt(stop)           30                           
 set opt(tptraffic)	ftp
 #set opt(packetSize)    1500  #bytes
-set opt(rate)		64Kb
+set opt(rate)		448Kb
 set num_wired_nodes     1
 set num_bs_nodes        1
 
@@ -140,7 +140,7 @@ if {$opt(tptraffic) == "ftp"} {
 		set ftp($j) [new Application/FTP]
 		$ftp($j) attach-agent $tcp($j)
 		$ns_ at 5.0 "$ftp($j) start"
-		$ns_ at 50.0 "$ftp($j) stop"
+		$ns_ at 20.0 "$ftp($j) stop"
 	}
 }
 
@@ -159,7 +159,7 @@ if {$opt(tptraffic) == "cbr"} {
 		$cbr($j) set random_ 0
 		$cbr($j) attach-agent $udp($j)
 		$ns_ at 5.0 "$cbr($j) start"
-		$ns_ at 50.0 "$cbr($j) stop"
+		$ns_ at 20.0 "$cbr($j) stop"
 	}
 }
 
